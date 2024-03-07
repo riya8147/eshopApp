@@ -4,11 +4,14 @@ import { AppBar, Toolbar, IconButton, Typography, Button } from '@material-ui/co
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import axios from 'axios';
 
-const NavigationBar = () => {
+const NavigationBar = ({ loggedIn, isAdmin }) => {
   const history = useHistory();
 
   const handleSignOut = () => {
-    // Logic to handle sign out
+    // Perform sign-out logic
+    // For example, clear local storage, reset state, etc.
+    // Then redirect the user to the login page
+    history.push('/login');
   };
 
   return (
@@ -20,15 +23,26 @@ const NavigationBar = () => {
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           upGrad Eshop
         </Typography>
-        <Button component={Link} to="/login" color="inherit">
-          Sign In
-        </Button>
-        <Button component={Link} to="/signup" color="inherit">
-          Sign Up
-        </Button>
-        <Button color="inherit" onClick={handleSignOut}>
-          Sign Out
-        </Button>
+        {loggedIn && isAdmin && ( // Display "Manage Products" link for admin users
+          <Button component={Link} to="/manage-products" color="inherit">
+            Manage Products
+          </Button>
+        )}
+        {!loggedIn && ( // Display "Sign In" and "Sign Up" buttons if not logged in
+          <>
+            <Button component={Link} to="/login" color="inherit">
+              Sign In
+            </Button>
+            <Button component={Link} to="/signup" color="inherit">
+              Sign Up
+            </Button>
+          </>
+        )}
+        {loggedIn && ( // Display "Sign Out" button if logged in
+          <Button color="inherit" onClick={handleSignOut}>
+            Sign Out
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );
