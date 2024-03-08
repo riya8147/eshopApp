@@ -2,9 +2,23 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { AppBar, Toolbar, IconButton, Typography, Button } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
+import Logo from './logo.svg';
+
+const useStyles = makeStyles((theme) => ({
+  logo: {
+    marginRight: theme.spacing(2), // Adjust spacing as needed
+    width: 40, // Adjust width as needed
+    height: 'auto', // Maintain aspect ratio
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
 
 const NavigationBar = ({ loggedIn, isAdmin }) => {
+  const classes = useStyles();
   const history = useHistory();
 
   const handleSignOut = () => {
@@ -15,13 +29,14 @@ const NavigationBar = ({ loggedIn, isAdmin }) => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{ backgroundColor: '#3f51b5' }}>
       <Toolbar>
         <IconButton edge="start" color="inherit" aria-label="menu">
           <ShoppingCartIcon />
         </IconButton>
-        <Typography variant="h6" style={{ flexGrow: 1 }}>
-          upGrad Eshop
+        <img src={Logo} alt="Logo" className={classes.logo} /> {/* Display logo */}
+        <Typography variant="h6" className={classes.title}>
+          {/* Remove text and use logo instead */}
         </Typography>
         {loggedIn && isAdmin && ( // Display "Manage Products" link for admin users
           <Button component={Link} to="/manage-products" color="inherit">
